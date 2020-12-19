@@ -23,6 +23,7 @@ void make_payload(std::vector<exp_pair> &out_res)
   char func_name[10];
   func_name[0] = 's';
   func_name[1] = '2';
+  func_name[2] = 0;
   tmp.name = func_name;
   tmp.func = (PVOID)&secret_func2;
   out_res.push_back(tmp);
