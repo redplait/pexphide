@@ -1,7 +1,8 @@
 #include "pch.h"
 #include "exp.h"
 
-// will be places in .data section
+// memory for IMAGE_EXPORT_DIRECTORY and all guts like module name, function names, ordinals etc
+// will be placed in .data section
 BYTE place[0x2000] = { 0 };
 
 size_t calc_exp_size(const char *dll_name, std::vector<exp_pair> *funcs)
@@ -25,7 +26,10 @@ int make_new_export_table(HMODULE mz, const char *dll_name, std::vector<exp_pair
   if ( !exp_size )
     return 0;
   if ( exp_size >= sizeof(place) )
+  {
+    printf("expand place to %X bytes\n", exp_size);
     return 0;
+  }
   size_t dll_len = strlen(dll_name) + 1;
   PBYTE ptr = place;
   memcpy(ptr, dll_name, dll_len + 1);
